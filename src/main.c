@@ -32,7 +32,7 @@ void instFormatPrint(double instLength, double tag, double index, double offset)
 void loadInst(double instLength, double tag, double index, double offset){
     char data[100];
     printf("\nEnter the load data(in hex): ");
-    clearInputBuffer(); 
+    clearInputBuffer();
     fgets(data, sizeof(data), stdin);
     if(data[strlen(data)-1] == '\n'){
         data[strlen(data)-1] = '\0';
@@ -41,6 +41,18 @@ void loadInst(double instLength, double tag, double index, double offset){
     char *res = convertHexToBin(data, length);
     // printf("\n%s\n",res);
     updateCache(res, tag, index, offset);
+    while(1==1){
+        char data[100];
+        printf("\nEnter the load data(in hex): ");
+        fgets(data, sizeof(data), stdin);
+        if(data[strlen(data)-1] == '\n'){
+            data[strlen(data)-1] = '\0';
+        }
+        int length = (int)instLength;
+        char *res = convertHexToBin(data, length);
+        // printf("\n%s\n",res);
+        updateCache(res, tag, index, offset);
+    }
 }
 
 int main(){
