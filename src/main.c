@@ -1,19 +1,14 @@
+#include "../lib/hex_to_bin.h"
+#include "../lib/cacheTable.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include "../lib/hex_to_bin.h"
 
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
 }
-
-typedef struct cacheMemoryBlock{ //in progress - still need to add valid and dirty bits
-    int index;
-    unsigned int tag;
-    unsigned int data; //requires some work to link to the real memory location, will take some tinkering
-}cacheMemoryBlock;
 
 
 void prntStart(){
@@ -34,7 +29,7 @@ void instFormatPrint(double instLength, double tag, double index, double offset)
     printf("+---------+---------+---------+\n");
 }
 
-void loadInst(double instLength){
+void loadInst(double instLength, double tag, double index, double offset){
     char data[100];
     printf("\nEnter the load data(in hex): ");
     clearInputBuffer(); 
@@ -44,7 +39,8 @@ void loadInst(double instLength){
     }
     int length = (int)instLength;
     char *res = convertHexToBin(data, length);
-    printf("\n%s",res);
+    // printf("\n%s\n",res);
+    updateCache(res, tag, index, offset);
 }
 
 int main(){
@@ -62,6 +58,8 @@ int main(){
     tag = instLength-offset-index;
     cacheBlocks = log2(cacheSize);
     instFormatPrint(instLength, tag, index, offset);
-    loadInst(instLength);
+    int length = (int)instLength;
+    makeCacheTable(length, tag, index, offset);
+    loadInst(instLength, tag, index, offset);
     return 0;
 }

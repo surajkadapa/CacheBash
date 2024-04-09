@@ -4,6 +4,7 @@ SRCDIR = src
 BINDIR = bin
 SRCFILES += src/main.c
 SRCFILES += lib/hex_to_bin.c
+SRCFILES += lib/cacheTable.c
 
 EXECUTABLE = cache_simulator
 

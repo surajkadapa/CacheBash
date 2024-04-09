@@ -38,3 +38,4 @@ char *convertHexToBin(char *hexString, int instrLength) {
     }
     return res;
 }
+
