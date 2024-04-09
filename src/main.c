@@ -4,6 +4,11 @@
 #include <string.h>
 #include "../lib/hex_to_bin.h"
 
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 typedef struct cacheMemoryBlock{ //in progress - still need to add valid and dirty bits
     int index;
     unsigned int tag;
@@ -29,12 +34,16 @@ void instFormatPrint(double instLength, double tag, double index, double offset)
     printf("+---------+---------+---------+\n");
 }
 
-void loadInst(){
-    char *data;
-    char *res;
-    printf("Enter the load data: ");
-    scanf("%s", data);
-    res = convertHexToBin(data);
+void loadInst(double instLength){
+    char data[100];
+    printf("\nEnter the load data(in hex): ");
+    clearInputBuffer(); 
+    fgets(data, sizeof(data), stdin);
+    if(data[strlen(data)-1] == '\n'){
+        data[strlen(data)-1] = '\0';
+    }
+    int length = (int)instLength;
+    char *res = convertHexToBin(data, length);
     printf("\n%s",res);
 }
 
@@ -53,5 +62,6 @@ int main(){
     tag = instLength-offset-index;
     cacheBlocks = log2(cacheSize);
     instFormatPrint(instLength, tag, index, offset);
+    loadInst(instLength);
     return 0;
 }
