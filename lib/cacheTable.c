@@ -22,7 +22,7 @@ int convert(char *binary){
 typedef struct cacheMemoryBlock{ //in progress - still need to add valid and dirty bits
     int index;
     char *tag;
-    char *data; //requires some work to link to the real memory location, will take some tinkering
+    unsigned int data; //requires some work to link to the real memory location, will take some tinkering
 }cacheMemoryBlock;
 
 cacheMemoryBlock *Blocks;
@@ -42,7 +42,8 @@ void makeCacheTable(int instLength, double tag, double index, double offset){
     }
 }
 
-void updateCache(char *instruction, double tag, double index, double offset){
+int updateCache(char *instruction, double tag, double index, double offset){
+    int retValue = -1;
     int tagI = (int)tag;
     char *tagBlock = malloc((tagI + 1)*sizeof(char));
     tagBlock[tagI] = '\0';
@@ -62,12 +63,25 @@ void updateCache(char *instruction, double tag, double index, double offset){
     Blocks[inIndex].index = inIndex;
     Blocks[inIndex].tag = malloc(strlen(tagBlock)*sizeof(char));
     strcpy(Blocks[inIndex].tag, tagBlock);
+    char *memAddr;
+    memAddr = malloc((tagI+indexI)*sizeof(char));
+    strcat(memAddr, tagBlock);
+    strcat(memAddr, indexBlock);
+    int addr = convert(memAddr);
+    if((Blocks[inIndex].data-addr)==0){
+        retValue = 1;
+    }else{
+        retValue = -1;
+    }
+    Blocks[inIndex].data = addr;
+    //should be at the end
     printf("\nCache Memory Table\n");
     printf("+-------------+-----------------+-------------+\n");
     printf("|    Index    |       Tag       |     Data    |\n");
     printf("+-------------+-----------------+-------------+\n");
     for(int i = 0; i<NoBlcks; i++){
-        printf("|      %d      |     %s     |     %s    |\n",Blocks[i].index, Blocks[i].tag, Blocks[i].data);
+        printf("|      %d      |     %s     |     Block %d    |\n",Blocks[i].index, Blocks[i].tag, Blocks[i].data);
         printf("+-------------+----------------+-------------+\n");
     }
+    return retValue;
 }
