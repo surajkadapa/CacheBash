@@ -1,4 +1,5 @@
 #include "directMapped.h"
+#include "hex_to_bin.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -25,10 +26,13 @@ typedef struct cacheMemoryBlock{ //in progress - still need to add valid and dir
     unsigned int data; //requires some work to link to the real memory location, will take some tinkering
 }cacheMemoryBlock;
 
-
+int cacheHit, cacheMiss = 0;
+int total = 0;
 
 void loadInstdm(double instLength, double tag, double index, double offset){
     char data[100];
+    float hitPercent;
+    float missPercent;
     printf("\nEnter the load data(in hex): ");
     clearInputBuffer();
     fgets(data, sizeof(data), stdin);
@@ -40,12 +44,16 @@ void loadInstdm(double instLength, double tag, double index, double offset){
     // printf("\n%s\n",res);
     int ret = updateCache(res, tag, index, offset);
     if(ret == 1){
+        total++;
         cacheHit++;
     }else{
+        total++;
         cacheMiss++;
     }
-    printf("\nCache Hits: %d", cacheHit);
-    printf("\nCache Misses: %d", cacheMiss);
+    hitPercent = ((float)cacheHit/total)*100;
+    missPercent = ((float)cacheMiss/total)*100;
+    printf("\nCache Hits: %.2f%%", hitPercent);
+    printf("\nCache Misses: %.2f%%", missPercent);
     while(1==1){
         char data[100];
         printf("\nEnter the load data(in hex): ");
@@ -61,11 +69,12 @@ void loadInstdm(double instLength, double tag, double index, double offset){
         float missPercent;
         if(ret == 1){
             cacheHit++;
-            hitPercent = (((float)cacheHit)/(cacheHit+cacheMiss))*100;
+            total++;
         }else{
             cacheMiss++;
-            missPercent = (((float)cacheMiss)/(cacheHit+cacheMiss))*100;
+            total++;
         }
+        hitPercent = ((float)cacheHit/total)*100;
         printf("\nCache Hit: %.2f%%", hitPercent);
         printf("\nCache Miss: %.2f%%", missPercent);
     }
@@ -75,7 +84,7 @@ void loadInstdm(double instLength, double tag, double index, double offset){
 cacheMemoryBlock *Blocks;
 int NoBlcks = 0;
 void makeCacheTable(int instLength, double tag, double index, double offset){
-    printf("\nCache Memory Table\n");
+    printf("\nCache Memory Table(Direct Mapped)\n");
     printf("+-------------+-------------+-------------+\n");
     printf("|    Index    |     Tag     |     Data    |\n");
     printf("+-------------+-------------+-------------+\n");
