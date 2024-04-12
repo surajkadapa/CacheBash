@@ -1,4 +1,4 @@
-#include "cacheTable.h"
+#include "directMapped.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -24,6 +24,53 @@ typedef struct cacheMemoryBlock{ //in progress - still need to add valid and dir
     char *tag;
     unsigned int data; //requires some work to link to the real memory location, will take some tinkering
 }cacheMemoryBlock;
+
+
+
+void loadInstdm(double instLength, double tag, double index, double offset){
+    char data[100];
+    printf("\nEnter the load data(in hex): ");
+    clearInputBuffer();
+    fgets(data, sizeof(data), stdin);
+    if(data[strlen(data)-1] == '\n'){
+        data[strlen(data)-1] = '\0';
+    }
+    int length = (int)instLength;
+    char *res = convertHexToBin(data, length);
+    // printf("\n%s\n",res);
+    int ret = updateCache(res, tag, index, offset);
+    if(ret == 1){
+        cacheHit++;
+    }else{
+        cacheMiss++;
+    }
+    printf("\nCache Hits: %d", cacheHit);
+    printf("\nCache Misses: %d", cacheMiss);
+    while(1==1){
+        char data[100];
+        printf("\nEnter the load data(in hex): ");
+        fgets(data, sizeof(data), stdin);
+        if(data[strlen(data)-1] == '\n'){
+            data[strlen(data)-1] = '\0';
+        }
+        int length = (int)instLength;
+        char *res = convertHexToBin(data, length);
+        // printf("\n%s\n",res);
+        int ret = updateCache(res, tag, index, offset);
+        float hitPercent;
+        float missPercent;
+        if(ret == 1){
+            cacheHit++;
+            hitPercent = (((float)cacheHit)/(cacheHit+cacheMiss))*100;
+        }else{
+            cacheMiss++;
+            missPercent = (((float)cacheMiss)/(cacheHit+cacheMiss))*100;
+        }
+        printf("\nCache Hit: %.2f%%", hitPercent);
+        printf("\nCache Miss: %.2f%%", missPercent);
+    }
+}
+
 
 cacheMemoryBlock *Blocks;
 int NoBlcks = 0;
