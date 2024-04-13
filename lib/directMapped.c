@@ -5,6 +5,12 @@
 #include <string.h>
 #include <math.h>
 
+
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
 void slice(const char* str, char *result, size_t start, size_t end){
     strncpy(result, str+start, end-start);
 }
@@ -75,6 +81,7 @@ void loadInstdm(double instLength, double tag, double index, double offset){
             total++;
         }
         hitPercent = ((float)cacheHit/total)*100;
+        missPercent = ((float)cacheMiss/total)*100;
         printf("\nCache Hit: %.2f%%", hitPercent);
         printf("\nCache Miss: %.2f%%", missPercent);
     }
@@ -107,7 +114,7 @@ int updateCache(char *instruction, double tag, double index, double offset){
     char *indexBlock = malloc((indexI + 1)*sizeof(char));
     indexBlock[indexI] = '\0';
     int offsetI = (int)offset;
-    char *offsetBlock = malloc((offset + 1)*sizeof(char));
+    char *offsetBlock = malloc((offsetI + 1)*sizeof(char));
     offsetBlock[offsetI] = '\0';
     slice(instruction, tagBlock, 0, 0+tagI);
     slice(instruction, indexBlock, (0+tagI), (0+tagI)+indexI);

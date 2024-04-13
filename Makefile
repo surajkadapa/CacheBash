@@ -5,6 +5,7 @@ BINDIR = bin
 SRCFILES += src/main.c
 SRCFILES += lib/hex_to_bin.c
 SRCFILES += lib/directMapped.c
+SRCFILES += lib/fullyAssociativeFIFO.c
 
 EXECUTABLE = cache_simulator
 

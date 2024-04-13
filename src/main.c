@@ -1,5 +1,6 @@
 #include "../lib/hex_to_bin.h"
 #include "../lib/directMapped.h"
+#include "../lib/fullyAssociativeFIFO.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -7,10 +8,6 @@
 
 
 
-void clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
 
 
 void prntStart(){
@@ -45,6 +42,7 @@ int main(){
     printf("Select an option\n");
     printf("\t1. Direct Mapped Cache(no replacement algorithim)\n");
     printf("\t2. Fully Associative Cache(FIFO replacment policy)\n");
+    scanf("%d", &type);
     double instLength, index, tag, cacheBlocks = 0;
     switch(type){
         case 1:
@@ -61,8 +59,8 @@ int main(){
             tag = instLength-offset;
             double calc2 = pow(2, offset);
             cacheBlocks =  (cacheSize/calc2);
-            
-            
+            makeCacheTableFaFIFO(instLength, tag, offset, cacheBlocks);
+            break;
     }
     return 0;
 }

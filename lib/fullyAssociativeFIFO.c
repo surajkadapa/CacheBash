@@ -5,6 +5,12 @@
 #include <string.h>
 #include <math.h>
 
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
+
+
 void slice(const char *str, char *result, size_t start, size_t end){
     strncpy(result, str+start, end-start);
 }
@@ -31,13 +37,15 @@ void enQueue(int index){
     rear = (rear + 1) % size;
     items[rear] = index;
 }
-void deQueue(){
+int deQueue(){
+    int result = items[front];
     if(front == rear){
         front = -1;
         rear = -1;
     }else{
         front = (front + 1) % size;
     }
+    return result;
 }
 
 int cacheHit, cacheMiss = 0;
@@ -49,7 +57,48 @@ void loadInstFaFIFO(double instLength, double tag, double offset, double cacheBl
     float missPercent;
     printf("\nEnter the data to load(in hex): ");
     clearInputBuffer();
-    
+    fgets(data, sizeof(data), stdin);
+    if(data[strlen(data)-1] == '\n'){
+        data[strlen(data)-1] = '\0';
+    }
+    int length = (int)instLength;
+    char *res = convertHexToBin(data, length);
+    int ret = updateCacheFaFIFO(res, tag, offset);
+    if(ret == 1){
+        total++;
+        cacheHit++;
+    }else{
+        total++;
+        cacheMiss++;
+    }
+    hitPercent = ((float)cacheHit/total)*100;
+    missPercent = ((float)cacheMiss/total)*100;
+    printf("\nCache Hits: %.2f%%", hitPercent);
+    printf("\nCache Misses: %.2f%%", missPercent);
+    while(1==1){
+        char data[100];
+        float hitPercent;
+        float missPercent;
+        printf("\nEnter the data to load(in hex): ");
+        fgets(data, sizeof(data), stdin);
+        if(data[strlen(data)-1] == '\n'){
+            data[strlen(data)-1] = '\0';
+        }
+        int length = (int)instLength;
+        char *res = convertHexToBin(data, length);
+        int ret = updateCacheFaFIFO(res, tag, offset);
+        if(ret == 1){
+            total++;
+            cacheHit++;
+        }else{
+            total++;
+            cacheMiss;
+        }
+        hitPercent = ((float)cacheHit/total)*100;
+        missPercent = ((float)cacheMiss/total)*100;
+        printf("\nCache Hits: %.2f%%", hitPercent);
+        printf("\nCache Misses: %.2f%%", missPercent);
+    }
 }
 
 
@@ -61,7 +110,6 @@ typedef struct cacheMemoryBlock{
 
 cacheMemoryBlock *Blocks;
 int noBlocks = 0;
-
 void makeCacheTableFaFIFO(int instLngth, double tag, double offset, double cacheBlocks){
     printf("\nCache Memory Table(FA-FIFO)\n");
     printf("+-------------+-------------+-------------+\n");
@@ -74,8 +122,40 @@ void makeCacheTableFaFIFO(int instLngth, double tag, double offset, double cache
     Blocks = malloc(noBlocks*sizeof(cacheMemoryBlock));
     for(int i = 0; i<noBlocks; i++){
         Blocks[i].index = i;
+        Blocks[i].tag = malloc((tag + 1) * sizeof(char));
+        strcpy(Blocks[i].tag, "NULL");
         printf("|      %d      |     Tag     |     Data    |\n",Blocks[i].index);
         printf("+-------------+-------------+-------------+\n");
     }
+    for(int i=0; i<noBlocks; i++){
+        enQueue(i);
+    }
+}
 
+int updateCacheFaFIFO(char *instruction, double tag, double offset){
+    int retValue = -1;
+    int tagI = (int)tag;
+    char *tagBlock = malloc((tagI + 1)*sizeof(char));
+    tagBlock[tagI] = '\0';
+    int offsetI = (int)offset;
+    char *offsetBlock = malloc((offsetI + 1)*sizeof(char));
+    offsetBlock[offsetI] = '\0';
+    slice(instruction, tagBlock, 0, 0+tagI);
+    slice(instruction, offsetBlock, (0+tagI), (0+tagI)+offsetI);
+    int found = 0;
+    for(int i = 0; i<noBlocks; i++){
+        if(strcmp(Blocks[i].tag, tagBlock)==0){
+            found = 1;
+            retValue = 1;
+            return retValue;
+            break;
+        }
+    }
+    if(found == 0){ //data has not been found in the cache table
+        int addIndex = deQueue();
+        enQueue(addIndex);
+        Blocks[addIndex].tag = malloc(strlen(tagBlock)*sizeof(char));
+        strcpy(Blocks[addIndex].tag, tagBlock);
+        return retValue;
+    }
 }
