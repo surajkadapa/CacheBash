@@ -72,7 +72,7 @@ void loadInstFaFIFO(double instLength, double tag, double offset, double cacheBl
             cacheHit++;
         }else{
             total++;
-            cacheMiss;
+            cacheMiss++;
         }
         hitPercent = ((float)cacheHit/total)*100;
         missPercent = ((float)cacheMiss/total)*100;
@@ -95,7 +95,6 @@ void makeCacheTableFaFIFO(int instLngth, double tag, double offset, double cache
     printf("+-------------+-------------+-------------+\n");
     printf("|    Index    |     Tag     |     Data    |\n");
     printf("+-------------+-------------+-------------+\n");
-    int noBlocks = 0;
     noBlocks = (int) cacheBlocks;
     size = noBlocks;
     items = malloc(size*sizeof(int));
@@ -124,6 +123,7 @@ int updateCacheFaFIFO(char *instruction, double tag, double offset){
     slice(instruction, offsetBlock, (0+tagI), (0+tagI)+offsetI);
     int found = 0;
     for(int i = 0; i<noBlocks; i++){
+        printf("%s\n",Blocks[i].tag);
         if(strcmp(Blocks[i].tag, tagBlock)==0){
             found = 1;
             retValue = 1;
@@ -134,8 +134,9 @@ int updateCacheFaFIFO(char *instruction, double tag, double offset){
     if(found == 0){ //data has not been found in the cache table
         int addIndex = deQueue();
         enQueue(addIndex);
-        Blocks[addIndex].tag = malloc(strlen(tagBlock)*sizeof(char));
         strcpy(Blocks[addIndex].tag, tagBlock);
+        printf("not found");
         return retValue;
     }
 }
+

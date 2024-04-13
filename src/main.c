@@ -59,7 +59,9 @@ int main(){
             tag = instLength-offset;
             double calc2 = pow(2, offset);
             cacheBlocks =  (cacheSize/calc2);
+            printf("%lf",cacheBlocks);
             makeCacheTableFaFIFO(instLength, tag, offset, cacheBlocks);
+            loadInstFaFIFO(instLength, tag, offset, cacheBlocks);
             break;
     }
     return 0;
