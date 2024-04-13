@@ -4,27 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
-
-void clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
-}
-
-
-void slice(const char *str, char *result, size_t start, size_t end){
-    strncpy(result, str+start, end-start);
-}
-
-int convert(char *binary){
-    int result = 0;
-    int length = strlen(binary);
-
-    for(int i = 0; i < length; i++){
-        int digit = binary[i] - '0';
-        result = result * 2 + digit;
-    }
-    return result;
-}
+#include "utils.h"
 
 
 //need a circular queue to implement FIFO 
@@ -48,8 +28,8 @@ int deQueue(){
     return result;
 }
 
-int cacheHit, cacheMiss = 0;
-int total = 0;
+extern int cacheHit, cacheMiss;
+extern int total;
 
 void loadInstFaFIFO(double instLength, double tag, double offset, double cacheBlocks){
     char data[100];
@@ -108,7 +88,7 @@ typedef struct cacheMemoryBlock{
     unsigned int data;
 }cacheMemoryBlock;
 
-cacheMemoryBlock *Blocks;
+extern cacheMemoryBlock *Blocks;
 int noBlocks = 0;
 void makeCacheTableFaFIFO(int instLngth, double tag, double offset, double cacheBlocks){
     printf("\nCache Memory Table(FA-FIFO)\n");
