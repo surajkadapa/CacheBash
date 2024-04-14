@@ -42,6 +42,7 @@ int main(){
     printf("Select an option\n");
     printf("\t1. Direct Mapped Cache(no replacement algorithim)\n");
     printf("\t2. Fully Associative Cache(FIFO replacment policy)\n");
+    printf("Option: ");
     scanf("%d", &type);
     double instLength, index, tag, cacheBlocks = 0;
     switch(type){
