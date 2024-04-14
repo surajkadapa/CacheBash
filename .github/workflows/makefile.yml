@@ -1,4 +1,4 @@
-   name: python-app
+   name: CacheBash-Main
 
    on:
      push:
