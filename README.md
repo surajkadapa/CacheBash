@@ -38,7 +38,7 @@ Once make runs successfully run the following command to launch the simulator!\
 ---
 # How to use CacheBash
 Initially, when the simulator starts up it will ask for the cache size(in powers of 2), memory size(in powers of 2), and the offset bits\
-insert image here
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/startuo.png) \
 Then it will require the scheme(2 for now) for the cache \
 insert image here
 The instruction format will be shown \
