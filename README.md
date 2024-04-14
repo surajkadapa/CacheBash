@@ -9,6 +9,8 @@
 ---
 
 A cache simulator written with only the standard C library that can simulate direct mapped and fully associative cache(FIFO), with more cache schemes and replacement algorithims to be added soon.
+
+[![01 - Default Workflow](https://github.com/GuillaumeFalourd/poc-github-actions/actions/workflows/01-default-workflow.yml/badge.svg)](https://github.com/surajkadapa/CacheBash/blob/main/.github/workflows/makefile.yml)
 ---
 
 # What is a cache?
