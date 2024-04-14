@@ -48,4 +48,4 @@ And the cache memory table will also be shown \
 Finally, we give the data we want to load(in hex) and it will be processed in the back following the graphic below and the output will be shown with also with the cache table after updating with the cache miss and hit percentages \
 ![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/breakdown_graphic.jpg) \
 ![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/updated_cachetable.png) \
-The load data can be given continously and the hit and miss percentages will be calculated accordingly and the cache table will the updated with each instruction.\
+The load data can be given continously and the hit and miss percentages will be calculated accordingly and the cache table will the updated with each instruction.
