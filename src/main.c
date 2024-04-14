@@ -5,11 +5,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-
-
-
-
-
+//testing workflows
 void prntStart(){
     system("clear");  
     printf("  _____            __        ___              __ \n");
