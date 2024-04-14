@@ -9,6 +9,8 @@
 ---
 
 A cache simulator written with only the standard C library that can simulate direct mapped and fully associative cache(FIFO), with more cache schemes and replacement algorithims to be added soon.
+
+![](https://github.com/surajkadapa/CacheBash/mainfile.yml/badge.svg)
 ---
 
 # What is a cache?
