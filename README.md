@@ -40,12 +40,12 @@ Once make runs successfully run the following command to launch the simulator!\
 Initially, when the simulator starts up it will ask for the cache size(in powers of 2), memory size(in powers of 2), and the offset bits\
 ![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/startuo.png) \
 Then it will require the scheme(2 for now) for the cache \
-insert image here
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/options.png) \
 The instruction format will be shown \
-insert image here
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/inst_format.png) \
 And the cache memory table will also be shown \
-insert image here
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/init_cachetable.png) \
 Finally, we give the data we want to load(in hex) and it will be processed in the back following the graphic below and the output will be shown with also with the cache table after updating with the cache miss and hit percentages \
-insert ishaans graphic
-insert image here
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/breakdown_graphic.jpg) \
+![Alt text](https://github.com/surajkadapa/CacheBash/blob/main/graphics/updated_cachetable.png) \
 The load data can be given continously and the hit and miss percentages will be calculated accordingly and the cache table will the updated with each instruction.\
