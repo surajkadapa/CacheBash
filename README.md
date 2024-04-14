@@ -16,21 +16,21 @@ Cache is a component between the CPU and the Main Memory(usually the RAM), and i
 Cache is a block of memory with data likely to be used again. A hardware cache is implemented using different schemes for replacement.\
 Caches are relatively small to be cost effective. Nevertheless, they are highly effective in many areas since computer programs access data with a high degree of locality of reference.\
 A cache hit occurs when the requested data from a program is present in the cache.\
-A cache miss occurs when the requested data from a program is not present in the cache, and depending on the cache policy it will bring the data from the main memory to the cache.\
+A cache miss occurs when the requested data from a program is not present in the cache, and depending on the cache policy it will bring the data from the main memory to the cache.
 
 ---
 # How to compile and run CacheBash
-To install this simulator first run the following command in the terminal of your choice\
+To install this simulator first run the following command in the terminal of your choice
 ```
 git clone https://github.com/surajkadapa/CacheBash.git
 ```
-Then, navigate to the directory and run make like below\
+Then, navigate to the directory and run make like below
 ```
 cd CacheBash
 make
 ```
 Make sure you have the Make utility installed.\
-Once make runs successfully run the following command to launch the simulator!\
+Once make runs successfully run the following command to launch the simulator!
 ```
 ./bin/cache_simulator
 ```
