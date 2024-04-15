@@ -1,10 +1,10 @@
-// #include "../lib/hex_to_bin.h"
-// #include "../lib/directMapped.h"
-// #include "../lib/fullyAssociativeFIFO.h"
-// #include <stdio.h>
-// // #include <stdlib.h>
-// #include <math.h>
-// #include <string.h>
+#include "../lib/hex_to_bin.h"
+#include "../lib/directMapped.h"
+#include "../lib/fullyAssociativeFIFO.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <math.h>
+#include <string.h>
 //testing workflows pt 2
 void prntStart(){
     system("clear");  
